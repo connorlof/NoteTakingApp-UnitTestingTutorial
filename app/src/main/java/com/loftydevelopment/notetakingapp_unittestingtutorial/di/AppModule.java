@@ -13,28 +13,46 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 
+import static com.loftydevelopment.notetakingapp_unittestingtutorial.persistence.NoteDatabase.DATABASE_NAME;
+
 @Module
 class AppModule {
 
     @Singleton
     @Provides
-    static NoteDatabase provideNoteDatabase(Application application) {
+    static NoteDatabase provideNoteDatabase(Application application){
         return Room.databaseBuilder(
                 application,
                 NoteDatabase.class,
-                NoteDatabase.DATABASE_NAME
+                DATABASE_NAME
         ).build();
     }
 
     @Singleton
     @Provides
-    static NoteDao provideNoteDao(NoteDatabase noteDatabase) {
-        return noteDatabase.getNoteDoa();
+    static NoteDao provideNoteDao(NoteDatabase noteDatabase){
+        return noteDatabase.getNoteDao();
     }
+
 
     @Singleton
     @Provides
-    static NoteRepository provideNoteRepository(NoteDao noteDao) {
+    static NoteRepository provideNoteRepository(NoteDao noteDao){
         return new NoteRepository(noteDao);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

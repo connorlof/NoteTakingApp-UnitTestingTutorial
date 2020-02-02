@@ -11,7 +11,6 @@ import com.loftydevelopment.notetakingapp_unittestingtutorial.models.Note;
 
 import java.util.List;
 
-import dagger.multibindings.IntoSet;
 import io.reactivex.Single;
 
 @Dao
@@ -28,5 +27,18 @@ public interface NoteDao {
 
     @Update
     Single<Integer> updateNote(Note note) throws Exception;
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

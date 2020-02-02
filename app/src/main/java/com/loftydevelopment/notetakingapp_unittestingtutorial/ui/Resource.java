@@ -1,5 +1,6 @@
 package com.loftydevelopment.notetakingapp_unittestingtutorial.ui;
 
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -64,3 +65,4 @@ public class Resource<T> {
         return true;
     }
 }
+

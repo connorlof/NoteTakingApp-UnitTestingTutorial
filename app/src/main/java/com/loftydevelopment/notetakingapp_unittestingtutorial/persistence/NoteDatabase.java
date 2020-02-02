@@ -10,5 +10,5 @@ public abstract class NoteDatabase extends RoomDatabase {
 
     public static final String DATABASE_NAME = "notes_db";
 
-    public abstract NoteDao getNoteDoa();
+    public abstract NoteDao getNoteDao();
 }

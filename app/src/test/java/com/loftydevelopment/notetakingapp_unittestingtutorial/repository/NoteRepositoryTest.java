@@ -5,12 +5,11 @@ import com.loftydevelopment.notetakingapp_unittestingtutorial.persistence.NoteDa
 import com.loftydevelopment.notetakingapp_unittestingtutorial.ui.Resource;
 import com.loftydevelopment.notetakingapp_unittestingtutorial.util.TestUtil;
 
-import org.junit.jupiter.api.*;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+
 
 import io.reactivex.Single;
 
@@ -176,5 +175,10 @@ public class NoteRepositoryTest {
     }
 
 }
+
+
+
+
+
 
 

@@ -20,7 +20,6 @@ import dagger.android.AndroidInjector;
                 ViewModelFactoryModule.class,
         }
 )
-
 public interface AppComponent extends AndroidInjector<BaseApplication> {
 
     @Component.Builder
