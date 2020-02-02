@@ -6,6 +6,7 @@ import androidx.room.Room;
 
 import com.loftydevelopment.notetakingapp_unittestingtutorial.persistence.NoteDao;
 import com.loftydevelopment.notetakingapp_unittestingtutorial.persistence.NoteDatabase;
+import com.loftydevelopment.notetakingapp_unittestingtutorial.repository.NoteRepository;
 
 import javax.inject.Singleton;
 
@@ -29,5 +30,11 @@ class AppModule {
     @Provides
     static NoteDao provideNoteDao(NoteDatabase noteDatabase) {
         return noteDatabase.getNoteDoa();
+    }
+
+    @Singleton
+    @Provides
+    static NoteRepository provideNoteRepository(NoteDao noteDao) {
+        return new NoteRepository(noteDao);
     }
 }

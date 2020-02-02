@@ -1,6 +1,6 @@
 package com.loftydevelopment.notetakingapp_unittestingtutorial.di;
 
-import com.loftydevelopment.notetakingapp_unittestingtutorial.NoteListActivity;
+import com.loftydevelopment.notetakingapp_unittestingtutorial.ui.noteslist.NoteListActivity;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
