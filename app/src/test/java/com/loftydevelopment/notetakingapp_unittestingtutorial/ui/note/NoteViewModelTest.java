@@ -86,7 +86,8 @@ public class NoteViewModelTest {
 
         // Act
         noteViewModel.setNote(note);
-        Resource<Integer> returnedValue = liveDataTestUtil.getValue(noteViewModel.insertNote());
+        noteViewModel.setIsNewNote(true);
+        Resource<Integer> returnedValue = liveDataTestUtil.getValue(noteViewModel.saveNote());
 
         // Assert
         Assertions.assertEquals(Resource.success(insertedRow, NoteRepository.INSERT_SUCCESS), returnedValue);
@@ -129,5 +130,66 @@ public class NoteViewModelTest {
                 noteViewModel.setNote(note);
             }
         });
+    }
+
+    /*
+        Update a note and observe row returned
+     */
+
+    @Test
+    void updateNote_returnRow() throws Exception {
+        // Arrange
+        Note note = new Note(TestUtil.TEST_NOTE_1);
+        LiveDataTestUtil<Resource<Integer>> liveDataTestUtil = new LiveDataTestUtil<>();
+        final int updatedRow = 1;
+        Flowable<Resource<Integer>> returnedData = SingleToFlowable.just(Resource.success(updatedRow, NoteRepository.UPDATE_SUCCESS));
+        when(noteRepository.updateNote(any(Note.class))).thenReturn(returnedData);
+
+        // Act
+        noteViewModel.setNote(note);
+        noteViewModel.setIsNewNote(false);
+        Resource<Integer> returnedValue = liveDataTestUtil.getValue(noteViewModel.saveNote());
+
+        // Assert
+        Assertions.assertEquals(Resource.success(updatedRow, NoteRepository.UPDATE_SUCCESS), returnedValue);
+    }
+
+    /*
+        Update: don't return a new row without observer
+     */
+
+    @Test
+    void dontReturnUpdateRowNumWithoutObserver() throws Exception {
+
+        // Arrange
+        Note note = new Note(TestUtil.TEST_NOTE_1);
+
+        // Act
+        noteViewModel.setNote(note);
+
+        // Assert
+        verify(noteRepository, never()).updateNote(any(Note.class));
+    }
+
+    @Test
+    void saveNote_shouldAllowSave_returnFalse() throws Exception {
+        // Arrange
+        Note note = new Note(TestUtil.TEST_NOTE_1);
+        note.setContent(null);
+
+        // Act
+        noteViewModel.setNote(note);
+        noteViewModel.setIsNewNote(true);
+
+        // Assert
+        Exception exception = Assertions.assertThrows(Exception.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                noteViewModel.saveNote();
+            }
+        });
+
+        Assertions.assertEquals(NoteViewModel.NO_CONTENT_ERROR, exception.getMessage());
+
     }
 }

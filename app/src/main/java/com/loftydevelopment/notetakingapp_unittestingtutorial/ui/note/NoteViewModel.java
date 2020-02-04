@@ -34,6 +34,7 @@ public class NoteViewModel extends ViewModel {
     private boolean isNewNote;
     private Subscription updateSubscription, insertSubscription;
 
+
     @Inject
     public NoteViewModel(NoteRepository noteRepository) {
         this.noteRepository = noteRepository;
@@ -42,24 +43,24 @@ public class NoteViewModel extends ViewModel {
     public LiveData<Resource<Integer>> insertNote() throws Exception{
         return LiveDataReactiveStreams.fromPublisher(
                 noteRepository.insertNote(note.getValue())
-                .doOnSubscribe(new Consumer<Subscription>() {
-                    @Override
-                    public void accept(Subscription subscription) throws Exception {
-                        insertSubscription = subscription;
-                    }
-                })
+                        .doOnSubscribe(new Consumer<Subscription>() {
+                            @Override
+                            public void accept(Subscription subscription) throws Exception {
+                                insertSubscription = subscription;
+                            }
+                        })
         );
     }
 
     public LiveData<Resource<Integer>> updateNote() throws Exception{
         return LiveDataReactiveStreams.fromPublisher(
                 noteRepository.updateNote(note.getValue())
-                .doOnSubscribe(new Consumer<Subscription>() {
-                    @Override
-                    public void accept(Subscription subscription) throws Exception {
-                        updateSubscription = subscription;
-                    }
-                })
+                        .doOnSubscribe(new Consumer<Subscription>() {
+                            @Override
+                            public void accept(Subscription subscription) throws Exception {
+                                updateSubscription = subscription;
+                            }
+                        })
         );
     }
 
@@ -86,9 +87,42 @@ public class NoteViewModel extends ViewModel {
         }
         cancelPendingTransactions();
 
-        
+        return new NoteInsertUpdateHelper<Integer>(){
 
-        return null;
+            @Override
+            public void setNoteId(int noteId) {
+                isNewNote = false;
+                Note currentNote = note.getValue();
+                currentNote.setId(noteId);
+                note.setValue(currentNote);
+            }
+
+            @Override
+            public LiveData<Resource<Integer>> getAction() throws Exception {
+                if(isNewNote){
+                    return insertNote();
+                }
+                else{
+                    return updateNote();
+                }
+            }
+
+            @Override
+            public String defineAction() {
+                if(isNewNote){
+                    return ACTION_INSERT;
+                }
+                else{
+                    return ACTION_UPDATE;
+                }
+            }
+
+            @Override
+            public void onTransactionComplete() {
+                updateSubscription = null;
+                insertSubscription = null;
+            }
+        }.getAsLiveData();
     }
 
     private void cancelPendingTransactions(){
@@ -110,8 +144,14 @@ public class NoteViewModel extends ViewModel {
         insertSubscription = null;
     }
 
-    private boolean shouldAllowSave(){
-        return removeWhiteSpace(note.getValue().getContent()).length() > 0;
+    private boolean shouldAllowSave() throws Exception{
+
+        try{
+            return removeWhiteSpace(note.getValue().getContent()).length() > 0;
+        }catch (NullPointerException e){
+            throw new Exception(NO_CONTENT_ERROR);
+        }
+
     }
 
     public void updateNote(String title, String content) throws Exception{
@@ -152,11 +192,4 @@ public class NoteViewModel extends ViewModel {
     }
 
 }
-
-
-
-
-
-
-
 
