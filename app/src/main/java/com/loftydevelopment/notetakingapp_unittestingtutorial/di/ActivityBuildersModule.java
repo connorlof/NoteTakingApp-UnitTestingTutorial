@@ -1,7 +1,7 @@
 package com.loftydevelopment.notetakingapp_unittestingtutorial.di;
 
 import com.loftydevelopment.notetakingapp_unittestingtutorial.ui.note.NoteActivity;
-import com.loftydevelopment.notetakingapp_unittestingtutorial.ui.noteslist.NoteListActivity;
+import com.loftydevelopment.notetakingapp_unittestingtutorial.ui.noteslist.NotesListActivity;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -10,7 +10,7 @@ import dagger.android.ContributesAndroidInjector;
 public abstract class ActivityBuildersModule {
 
     @ContributesAndroidInjector
-    abstract NoteListActivity contributeNotesListActivity();
+    abstract NotesListActivity contributeNotesListActivity();
 
     @ContributesAndroidInjector
     abstract NoteActivity contributeNotesActivity();

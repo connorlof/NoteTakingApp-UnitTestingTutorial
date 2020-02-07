@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.note.NoteActivity"></activity>
-        <activity android:name=".ui.noteslist.NoteListActivity">
+        <activity android:name=".ui.noteslist.NotesListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
