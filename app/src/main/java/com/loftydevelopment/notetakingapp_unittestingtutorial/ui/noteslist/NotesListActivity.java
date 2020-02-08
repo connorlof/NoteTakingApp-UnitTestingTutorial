@@ -76,11 +76,13 @@ public class NotesListActivity extends DaggerAppCompatActivity implements
             public void onChanged(List<Note> notes) {
                 if(notes != null){
                     adapter.setNotes(notes);
+                    Log.d("NotesListActivity", "Notes: " + notes.size());
                 }
             }
         });
 
         viewModel.getNotes();
+
     }
 
     @Override
